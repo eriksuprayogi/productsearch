@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Erry on 5/20/2016.
  */
 public class AppApplication extends Application {
-    public final String BASE_API_URL = "ajax.tokopedia.com/";
+    public final String BASE_API_URL = "https://ajax.tokopedia.com/search/v1/";
     private static ApiEndpoint endpointInterface;
 
     @Override
@@ -28,5 +28,9 @@ public class AppApplication extends Application {
                 .client(client)
                 .build();
         endpointInterface = retrofit.create(ApiEndpoint.class);
+    }
+
+    public static ApiEndpoint getEndpointInterface() {
+        return endpointInterface;
     }
 }

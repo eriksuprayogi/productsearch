@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class ProductResponse {
     String status;
-    Long server_process_time;
+    Double server_process_time;
     Result result;
 
     public String getStatus() {
@@ -18,11 +18,11 @@ public class ProductResponse {
         this.status = status;
     }
 
-    public Long getServer_process_time() {
+    public Double getServer_process_time() {
         return server_process_time;
     }
 
-    public void setServer_process_time(Long server_process_time) {
+    public void setServer_process_time(Double server_process_time) {
         this.server_process_time = server_process_time;
     }
 
