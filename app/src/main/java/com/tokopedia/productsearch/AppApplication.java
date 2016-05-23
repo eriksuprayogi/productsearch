@@ -3,6 +3,9 @@ package com.tokopedia.productsearch;
 import android.app.Application;
 
 import com.activeandroid.ActiveAndroid;
+import com.google.gson.GsonBuilder;
+
+import java.lang.reflect.Modifier;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -24,8 +27,10 @@ public class AppApplication extends Application {
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(loggingInterceptor).build();
         Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_API_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
+                                .excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC)
+                                .create()))
+                .client(new OkHttpClient())
                 .build();
         endpointInterface = retrofit.create(ApiEndpoint.class);
     }

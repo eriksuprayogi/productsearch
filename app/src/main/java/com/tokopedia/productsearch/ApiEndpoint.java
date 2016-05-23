@@ -17,5 +17,5 @@ public interface ApiEndpoint {
 
 //    @Headers({"Content-Type:application/json"})
     @GET("product?device=android")
-    Call<ProductResponse> getProduct(@Query("rows") Integer rows, @Query("start") Integer start);
+    Call<ProductResponse> getProduct(@Query("rows") String rows, @Query("start") String start, @Query("q") String q);
 }

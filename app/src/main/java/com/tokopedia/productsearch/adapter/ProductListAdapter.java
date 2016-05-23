@@ -9,8 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.activeandroid.query.From;
+import com.activeandroid.query.Select;
 import com.squareup.picasso.Picasso;
 import com.tokopedia.productsearch.R;
+import com.tokopedia.productsearch.model.Product;
 import com.tokopedia.productsearch.model.ProductResponse;
 
 import java.util.ArrayList;
@@ -25,18 +28,40 @@ import butterknife.ButterKnife;
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
 
     private static final String TAG = ProductListAdapter.class.getSimpleName();
-    private List<ProductResponse.Product> products = new ArrayList<>();
-    private Context context;
+    private List<Product> products = new ArrayList<>();
+        private Context context;
 
-    public ProductListAdapter(Context context) {
-        this.context = context;
+        public ProductListAdapter(Context context) {
+            this.context = context;
+        }
+
+    public void setProducts(List<Product> products) {
+        if (products == null) {
+            products = new ArrayList<>();
+        }
+        this.products = products;
+        storeData(products);
+        notifyDataSetChanged();
     }
 
-    public void addProducts(List<ProductResponse.Product> products) {
+    public void addProducts(List<Product> products) {
+        if (products == null) {
+            products = new ArrayList<>();
+        }
         this.products.addAll(products);
         notifyItemInserted(this.products.size());
         notifyDataSetChanged();
-        Log.d(TAG, "Item inserted "+this.products.size());
+        storeData(products);
+        Log.d(TAG, "Item iserted "+this.products.size());
+    }
+
+    private void storeData(List<Product> products){
+        for (Product product : products){
+            From from = new Select().from(Product.class).where("product_id = ?", product.getProduct_id());
+            if(!from.exists()){
+                product.save();
+            }
+        }
     }
 
     @Override
@@ -47,7 +72,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        ProductResponse.Product product = products.get(position);
+        Product product = products.get(position);
         holder.product_name.setText(product.getProduct_name());
         holder.product_price.setText(product.getProduct_price());
         holder.product_store.setText(product.getShop_name());

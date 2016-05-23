@@ -32,8 +32,9 @@
         </FrameLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <com.github.yasevich.endlessrecyclerview.EndlessRecyclerView
         android:id="@+id/list"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>
